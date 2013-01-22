@@ -7,7 +7,18 @@ import re
 class ESPNSpider(BaseSpider):
     name = 'espn_players'
     allowed_domains = ["espn.go.com"]
-    start_urls = ["http://espn.go.com/nba/players"]
+
+    def __init__(self,*args,**kwargs):
+        super(ESPNSpider,self).__init__(*args,**kwargs)
+        sport = kwargs.get('sport')
+        if sport.lower() == 'nba':
+            self.start_urls = ["http://espn.go.com/nba/players"]
+        elif sport.lower() == 'nfl':
+            self.start_urls = ["http://espn.go.com/nfl/players"]
+        elif sport.lower() == 'nhl':
+            self.start_urls = ["http://espn.go.com/nhl/players"]
+        elif sport.lower() == 'mlb':
+            self.start_urls = ["http://espn.go.com/mlb/players"] 
     
     def parse(self,response):
         hxs = HtmlXPathSelector(response)
